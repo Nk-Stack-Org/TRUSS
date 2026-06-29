@@ -7,3 +7,6 @@ node_modules/
 
 # Logs
 *.log
+
+# Generated reports (truss doctor --json / --html). Recreated on demand.
+.truss/out/

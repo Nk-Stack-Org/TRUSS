@@ -31,11 +31,9 @@ jobs:
       - name: Verify CLI loads
         run: node .truss/bin/truss.mjs help
 
-      - name: Run test suite (unix)
-        if: runner.os != 'Windows'
-        run: node --test .truss/tests/*.mjs
-
-      - name: Run test suite (windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: node --test (Get-ChildItem .truss/tests/*.mjs).FullName
+      # node --test with no path args discovers every *.test.mjs recursively,
+      # including the dashboard suite (.truss/dashboard/**). No shell globbing,
+      # so one step works identically on Linux, macOS and Windows.
+      - name: Run test suite
+        working-directory: .truss
+        run: node --test
