@@ -1,6 +1,19 @@
+<p align="center">
+  <img src=".github/social-preview.png" alt="Truss — a file-based, dependency-free workspace structure for AI coding agents" width="640">
+</p>
+
+<!-- TODO(release): replace the banner above with a short product demo GIF
+     (an agent using Truss, or the dashboard). The GIF is the strongest
+     conversion lever — see planning/LAUNCH-HANDOVER.md in the dev repo. -->
+
 # Truss
 
 **A file-based, dependency-free workspace structure for AI coding agents.**
+
+[![CI](https://github.com/Nk-Stack-Org/truss/actions/workflows/ci.yml/badge.svg)](https://github.com/Nk-Stack-Org/truss/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A5%2020-brightgreen.svg)](https://nodejs.org)
+![Zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)
 
 > A truss is a light framework of struts that carries the load and holds a
 > structure's shape — without being the building itself. Truss does the same for
@@ -27,6 +40,20 @@ focus, plus a tiny CLI that _checks_ the structure but never decides for you.
 - **Lightweight context.** The mandatory per-session reading is ~3,000 tokens by
   design — the agent loads everything else on demand.
 
+## How it compares
+
+|                        | **Truss**                                              | Raw `AGENTS.md`                | Heavy agent frameworks                  |
+| ---------------------- | ------------------------------------------------------ | ------------------------------ | --------------------------------------- |
+| Setup                  | Copy one `.truss/` folder, run `init`                  | Write & maintain a file by hand | Install deps, configure, sometimes a service |
+| Dependencies           | None — Node ≥ 20 only                                  | None                           | Many (npm/PyPI, lockfiles)              |
+| Memory across sessions | Structured Markdown: context, decisions, phases        | One flat file you curate       | Framework DB or vendor-hosted store     |
+| Drift detection        | `doctor` checks the files still agree                  | None                           | Varies                                  |
+| Guardrails             | Human-gated phases narrow what the agent may do        | None                           | Often fully autonomous                  |
+| Who decides            | Humans & agents; scripts only report                   | You                            | The framework may act on its own        |
+| Tool-agnostic          | Yes — AGENTS.md standard (Claude, Gemini, Cursor, Copilot) | Yes                         | Usually tied to one runtime             |
+| Lock-in                | None — plain, git-diffable files                       | None                           | Framework + sometimes hosted state      |
+| Mandatory context      | ~3k tokens                                             | Whatever you put in the file   | Can be heavy                            |
+
 ## Quickstart
 
 Requires **Node ≥ 20**. There is nothing to install.
@@ -43,7 +70,7 @@ documentation that stays in the source repo).
 # In an empty or existing project directory:
 
 # 1. Drop the engine in — just the .truss/ folder, nothing else.
-git clone --depth 1 https://github.com/Nk-Stack-Org/TRUSS.git /tmp/truss
+git clone --depth 1 https://github.com/Nk-Stack-Org/truss.git /tmp/truss
 cp -R /tmp/truss/.truss ./.truss && rm -rf /tmp/truss
 
 # 2. Scaffold a fresh workspace next to the engine.
@@ -64,7 +91,7 @@ node .truss/bin/truss.mjs dashboard
 # In an empty or existing project directory:
 
 # 1. Drop the engine in.
-git clone --depth 1 https://github.com/Nk-Stack-Org/TRUSS.git $env:TEMP\truss
+git clone --depth 1 https://github.com/Nk-Stack-Org/truss.git $env:TEMP\truss
 Copy-Item -Recurse $env:TEMP\truss\.truss .\.truss
 Remove-Item -Recurse -Force $env:TEMP\truss
 

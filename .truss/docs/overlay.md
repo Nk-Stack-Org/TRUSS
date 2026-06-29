@@ -43,7 +43,7 @@ in as `repo/<name>/`. The `.gitignore` rule (`repo/`) and the phase glob
 
 ```bash
 mkdir my-project && cd my-project
-git clone --depth 1 https://github.com/Nk-Stack-Org/TRUSS.git /tmp/truss
+git clone --depth 1 https://github.com/Nk-Stack-Org/truss.git /tmp/truss
 cp -R /tmp/truss/.truss ./.truss && rm -rf /tmp/truss
 ```
 

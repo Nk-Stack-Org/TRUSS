@@ -1,7 +1,7 @@
 import { html, Component } from '../../vendor/preact-htm.mjs';
 import { Card, CardHead, Badge, Button, Icons, copyText } from '../components.js';
 
-const GITHUB_URL = 'https://github.com/Nk-Stack-Org/TRUSS';
+const GITHUB_URL = 'https://github.com/Nk-Stack-Org/truss';
 const DOCS_URL = `${GITHUB_URL}/tree/main/.truss/docs`;
 const ISSUES_URL = `${GITHUB_URL}/issues`;
 const LICENSE_URL = `${GITHUB_URL}/blob/main/LICENSE`;
