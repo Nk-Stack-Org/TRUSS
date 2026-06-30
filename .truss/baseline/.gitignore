@@ -1,5 +1,11 @@
 .truss/out/
 
+# OS / editor junk
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+
 # Secrets
 .env
 .env.*

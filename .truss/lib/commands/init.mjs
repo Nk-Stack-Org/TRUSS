@@ -289,28 +289,60 @@ function printReport(root, r) {
   }
   L.push('')
   L.push('  Next steps:')
-  if (r.overlay) {
-    if (!r.repo) {
-      L.push('    1. Bring your existing code in under repo/ (it stays gitignored, keeps its own history):')
-      L.push('         git clone <your-repo-url> repo/      # or: ln -s /path/to/code repo')
-      L.push('         (or re-run init with --repo <path|url> next time)')
-      L.push('    2. Run: node .truss/bin/truss.mjs doctor')
-      L.push('    3. Start the ingest phase — the overlay-onboard prompt asks you the')
-      L.push('       few things the code can\'t tell it (vision, status, role), then')
-      L.push('       surveys the code and fits the phase model. Move to operate when done.')
-    } else {
-      L.push('    1. Run: node .truss/bin/truss.mjs doctor')
-      L.push('    2. Start the ingest phase — the overlay-onboard prompt asks you the')
-      L.push('       few things the code can\'t tell it (vision, status, role), then')
-      L.push('       surveys the code and fits the phase model. Move to operate when done.')
-    }
-  } else {
-    L.push('    1. Fill VISION.md (#Problem first) and state/profile.md.')
-    L.push('    2. Run: node .truss/bin/truss.mjs doctor')
+  // Numbered steps are built in a list so the dashboard step renumbers itself
+  // whether or not the overlay "bring code in" step is present.
+  const steps = []
+  if (r.overlay && !r.repo) {
+    steps.push([
+      'Bring your existing code in under repo/ (it stays gitignored, keeps its own history):',
+      '     git clone <your-repo-url> repo/      # or: ln -s /path/to/code repo',
+      '     (or re-run init with --repo <path|url> next time)',
+    ])
   }
+  if (r.overlay) {
+    steps.push(['Run: node .truss/bin/truss.mjs doctor'])
+    steps.push([
+      'Start the ingest phase — the overlay-onboard prompt asks you the',
+      '   few things the code can\'t tell it (vision, status, role), then',
+      '   surveys the code and fits the phase model. Move to operate when done.',
+    ])
+  } else {
+    steps.push(['Fill VISION.md (#Problem first) and state/profile.md.'])
+    steps.push(['Run: node .truss/bin/truss.mjs doctor'])
+  }
+  steps.push(['Optional: node .truss/bin/truss.mjs dashboard — visual status, phases, and the prompt library in your browser.'])
+  steps.forEach((lines, i) => {
+    L.push(`    ${i + 1}. ${lines[0]}`)
+    for (const extra of lines.slice(1)) L.push(`    ${extra}`)
+  })
   L.push('')
   L.push('  Boot prompt for your AI tool:')
-  L.push('    "Read AGENTS.md fully, then follow §1 load order and start the current phase."')
+  for (const line of bootPromptLines(r)) L.push(`    ${line}`)
   L.push('')
   console.log(L.join('\n'))
+}
+
+/**
+ * The copy-paste boot prompt, tailored to how the workspace was initialised.
+ * Fresh projects just start the current phase; an overlay points the agent
+ * straight at the overlay-onboard ritual (the ingest phase's one prompt), and
+ * the no-repo variant defers it until repo/ holds the code.
+ */
+function bootPromptLines(r) {
+  if (!r.overlay) {
+    return ['"Read AGENTS.md fully, then follow §1 load order and start the current phase."']
+  }
+  const ritual =
+    'run the overlay-onboard ritual (.truss/prompts/base/overlay-onboard.md, ' +
+    'also on the dashboard\'s Setup shelf) to onboard'
+  if (!r.repo) {
+    return [
+      '"Once repo/ holds your code, read AGENTS.md fully, then follow §1 load',
+      `  order. You are in the ingest phase: ${ritual} it."`,
+    ]
+  }
+  return [
+    '"Read AGENTS.md fully, then follow §1 load order. You are in the ingest',
+    `  phase: ${ritual} the existing code under repo/."`,
+  ]
 }

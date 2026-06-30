@@ -11,6 +11,18 @@ import {
 import { mapMdFilesFromDiskPaths } from './commands/map.mjs'
 
 /**
+ * OS / editor junk files that are never part of a Truss workspace and must not
+ * surface as ST-02 "untracked file" hints. The walk (and therefore diskPaths)
+ * skips these entirely, so doctor stays quiet about them regardless of whether
+ * the user's .gitignore lists them — checks never shell out to git (SY-05).
+ * `._*` is the AppleDouble sidecar macOS writes onto non-HFS volumes.
+ */
+const OS_JUNK_NAMES = new Set(['.DS_Store', 'Thumbs.db', 'desktop.ini'])
+export function isOsJunk(name) {
+  return OS_JUNK_NAMES.has(name) || name.startsWith('._')
+}
+
+/**
  * Determine the workspace root from the script's location.
  * truss.mjs lives at <root>/.truss/bin/truss.mjs
  * → root = <root>
@@ -306,6 +318,7 @@ async function walkWorkspace(root) {
 
       // Always skip
       if (entry.name === 'node_modules') continue;
+      if (isOsJunk(entry.name)) continue;   // OS/editor junk (.DS_Store, ._*, …) — never a workspace path
       if (rel === '.git' || rel.startsWith('.git/')) continue;
       if (rel === '.truss/out' || rel.startsWith('.truss/out/')) continue;
 
