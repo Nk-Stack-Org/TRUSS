@@ -2,7 +2,7 @@
   <img src=".github/social-preview.png" alt="Truss — a file-based, dependency-free workspace structure for AI coding agents" width="640">
 </p>
 
-<!-- TODO(release): replace the banner above with a short product demo GIF
+<!-- TODO(release): replace the banner above with the Split-Screen Hero Mockup (Structure + Agent)
      (an agent using Truss, or the dashboard). The GIF is the strongest
      conversion lever — see planning/LAUNCH-HANDOVER.md in the dev repo. -->
 
@@ -173,7 +173,6 @@ my-project/
 ├── VISION.md          # problem, idea, principles, constraints
 ├── README.md          # human onboarding
 ├── HUMAN-TODOS.md     # things only a human can do (HT-NNN)
-├── INBOX.md           # human → agent notes between sessions
 ├── state/             # current focus, decisions, phases, profile, learnings
 ├── docs/              # conventions, protocols, git, import
 ├── context/           # domain files, created on demand

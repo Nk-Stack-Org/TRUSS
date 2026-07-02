@@ -327,6 +327,10 @@ function printReport(root, r) {
  * Fresh projects just start the current phase; an overlay points the agent
  * straight at the overlay-onboard ritual (the ingest phase's one prompt), and
  * the no-repo variant defers it until repo/ holds the code.
+ *
+ * Deliberately English regardless of --lang: the boot prompt is part of the
+ * canonical (English) skeleton. Content language is enforced where agents
+ * actually read rules — AGENTS.md §3 + profile.md `language:`.
  */
 function bootPromptLines(r) {
   if (!r.overlay) {

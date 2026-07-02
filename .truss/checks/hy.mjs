@@ -26,7 +26,7 @@ const DAY_MS = 86_400_000
 
 // Template files that live at the root and are never archive candidates.
 const TEMPLATE_ROOT_FILES = new Set([
-  'AGENTS.md', 'README.md', 'VISION.md', 'INBOX.md', 'HUMAN-TODOS.md',
+  'AGENTS.md', 'README.md', 'VISION.md', 'HUMAN-TODOS.md',
   'CLAUDE.md', 'GEMINI.md', '.cursorrules', 'package.json', '.gitignore',
 ])
 

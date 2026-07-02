@@ -6,7 +6,6 @@ import { parsePhase } from './parsers/phase.mjs';
 import { parseDecisions } from './parsers/decisions.mjs';
 import { parseOpenDecisions } from './parsers/open-decisions.mjs';
 import { parseHumanTodos } from './parsers/human-todos.mjs';
-import { parseInbox } from './parsers/inbox.mjs';
 import { parseProfile } from './parsers/profile.mjs';
 import { parseMap } from './parsers/map.mjs';
 import { parsePreferences } from './parsers/preferences.mjs';
@@ -28,7 +27,6 @@ export async function assembleState(root) {
     humanTodos: { open: [], openCount: 0, closedCount: 0, total: 0 },
     decisions: { recent: [], totalCount: 0 },
     openDecisions: [],
-    inbox: { unprocessedCount: 0 },
     sessions: [],
     map: { categories: [] },
     preferences: [],
@@ -118,16 +116,6 @@ export async function assembleState(root) {
       state.openDecisions = parseOpenDecisions(odLines);
     } catch (err) {
       state.errors.push({ file: 'state/open-decisions.md', message: err.message });
-    }
-  }
-
-  // Inbox
-  const inboxLines = await tryReadLines('INBOX.md');
-  if (inboxLines) {
-    try {
-      state.inbox = parseInbox(inboxLines);
-    } catch (err) {
-      state.errors.push({ file: 'INBOX.md', message: err.message });
     }
   }
 

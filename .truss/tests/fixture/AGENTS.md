@@ -41,7 +41,6 @@ Behavior: divergent.
 | README.md | H | human onboarding |
 | VISION.md | H+A | problem and idea |
 | HUMAN-TODOS.md | A→H | human todos |
-| INBOX.md | H→A | inbox |
 | .gitignore | S | gitignore |
 | CLAUDE.md · GEMINI.md · .cursorrules · .github/copilot-instructions.md | S | adapter stubs |
 | state/map.md (on demand) | S | auto-generated domain map; read-only |

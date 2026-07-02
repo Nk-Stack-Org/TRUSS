@@ -114,7 +114,7 @@ export async function run(ctx) {
   }
 
   // ── RF-02: referenced IDs must be defined ─────────────────────────────
-  // Scope: only operational files (state/, AGENTS.md, HUMAN-TODOS.md, INBOX.md,
+  // Scope: only operational files (state/, AGENTS.md, HUMAN-TODOS.md,
   // domain files). Skip docs/ — those files use IDs as format examples, not
   // real references to operational entries.
   for (const [id, allRefs] of idRefs) {

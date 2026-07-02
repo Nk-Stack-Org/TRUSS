@@ -23,7 +23,7 @@ Scripts check and report — they never decide.
 1. `node .truss/bin/truss.mjs doctor` — check workspace health.
 2. `node .truss/bin/truss.mjs dashboard` — open the visual control center (optional, see below).
 3. Point your AI tool at `AGENTS.md` and start a session.
-4. Human tasks go to `HUMAN-TODOS.md`; notes for the agent go to `INBOX.md`.
+4. Human tasks go to `HUMAN-TODOS.md`.
 
 ## Dashboard
 

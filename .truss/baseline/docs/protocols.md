@@ -1,26 +1,7 @@
 # Protocols
 
-> Load when: told to process INBOX, unsure about session ritual or archiving procedure.
-> Defines the inbox protocol, session ritual, and controlled forgetting.
-
-## Inbox protocol
-
-INBOX.md collects human notes between sessions. The agent never reads it automatically.
-
-**When told "process inbox":**
-
-1. Read INBOX.md top to bottom.
-2. For each item, route it to exactly one destination:
-   - A task or question → state/current.md (next list) or state/open-decisions.md
-   - A decision → state/decisions.md (D-NNN)
-   - A human-only action → HUMAN-TODOS.md (HT-NNN)
-   - A domain fact → its canonical domain file
-   - A link or reference → docs/import.md, or the relevant domain file
-3. After routing, replace each processed item with `> [YYYY-MM-DD] processed → [destination]`.
-4. Do not delete items — the log is useful for recall.
-5. Report what was routed and where.
-
-**What stays in INBOX.md:** items the human hasn't finished writing (marked `wip:`). Leave these untouched.
+> Load when: unsure about session ritual or archiving procedure.
+> Defines the session ritual and controlled forgetting.
 
 ## Session ritual
 

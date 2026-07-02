@@ -36,5 +36,5 @@ The dashboard is a lightweight, self-contained application:
   fixed whitelist of CLI commands. Full model:
   [../docs/architecture.md](../docs/architecture.md#dashboard).
 - **Live updates via SSE.** Changes to workspace files (`state/`,
-  `HUMAN-TODOS.md`, `INBOX.md`, …) are watched and pushed to connected clients
+  `HUMAN-TODOS.md`, …) are watched and pushed to connected clients
   over Server-Sent Events, with a polling fallback.

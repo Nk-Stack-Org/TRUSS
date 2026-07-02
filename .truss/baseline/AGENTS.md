@@ -21,7 +21,7 @@
 5. `state/profile.md` — project language, tools, style.
 6. The phase block's read list, then the one domain file your task belongs to (§2).
 
-Stop as soon as your task is unambiguous. Load `docs/*` or other domains only when triggered (§6). Never auto-load: `INBOX.md`, `archive/`, `repo/` history, `.truss/` internals.
+Stop as soon as your task is unambiguous. Load `docs/*` or other domains only when triggered (§6). Never auto-load: `archive/`, `repo/` history, `.truss/` internals.
 
 ## 2 Structure & routing
 
@@ -33,7 +33,6 @@ This table lists core system files. Domain (topic) files live under `context/` a
 | README.md | H | human onboarding — not agent context |
 | VISION.md | H+A | problem, idea, principles, constraints |
 | HUMAN-TODOS.md | A→H | everything only a human can do (HT-NNN); humans check off |
-| INBOX.md | H→A | human notes between sessions; process only on explicit command |
 | state/map.md (on demand) | S | auto-generated domain map; read-only |
 | state/current.md | A | focus · next (≤5) · blockers · recently done (≤7 days); update every session end |
 | state/decisions.md | A | decided decisions D-NNN; supersede, never delete |
@@ -42,7 +41,7 @@ This table lists core system files. Domain (topic) files live under `context/` a
 | state/phases.md | H pointer · H+A definitions | phase definitions and `current:` pointer |
 | state/profile.md | H+A | project name/language, PM method, tools and subscriptions, style and moral notes |
 | docs/conventions.md | A | ID schemes, entry grammars, file templates |
-| docs/protocols.md | A | inbox protocol, session ritual detail, controlled forgetting |
+| docs/protocols.md | A | session ritual detail, controlled forgetting |
 | docs/git.md | A | commit discipline, overlay git mechanics |
 | docs/import.md | A | guided import of an existing project |
 | .gitignore | S | excludes `.truss/out/`; overlay mode adds `repo/` |
@@ -60,15 +59,17 @@ Routing tie-breakers: behavior/style rule ("always plan first") → state/profil
 
 Canonical truth: every operational fact lives in exactly one file; link, never copy.
 
+Language: write all free-text in the `language:` set in state/profile.md — this includes entry titles and bodies (the text after `## OD-NNN — ` / `## D-NNN — `), briefings, focus, learnings, and notes; the dashboard displays this text as-is. Only the machine-parsed skeleton stays English: ID tokens (D-NNN, OD-NNN, …), keys and field labels (`focus:`, `Opened:`, `Leaning:`, `Options:`, `Date:`), and fixed file headings (e.g. profile.md's `## Project`).
+
 Consistency — a change is complete only after its follow-ups:
 
 1. Human decided something → D-NNN entry + update affected files + remove the open-decisions entry.
 2. New undecided question that blocks or shapes work → open-decisions briefing.
 3. New fact learned → its one canonical file; contradicted content gets an invalidation note.
-5. Task finished → remove it from its task list; reflect in state/current.md.
-6. Same number/name in several files → fix the canonical file, then grep and sync the copies.
-7. Superseded content → archive/ plus one-line invalidation note — never silent drift.
-8. Session ends → state/current.md current, loose ends routed.
+4. Task finished → remove it from its task list; reflect in state/current.md.
+5. Same number/name in several files → fix the canonical file, then grep and sync the copies.
+6. Superseded content → archive/ plus one-line invalidation note — never silent drift.
+7. Session ends → state/current.md current, loose ends routed.
 
 Quality flags — never knowingly pass a problem by:
 
@@ -98,7 +99,6 @@ Phase exit — when exit criteria appear met (never self-declare a phase change)
 - Never edit the generated blocks by hand; `truss set` / `truss render` are the only writers.
 - Never write or commit secrets/API keys to files tracked by git. Always store them in a local `.env` file (which must be gitignored) and document the required key names in a tracked `.env.example` file.
 - Never store the same truth twice, create empty folders, or add per-folder index files.
-- Never process INBOX.md without an explicit command.
 - Never delete a decision — supersede it.
 - Never ignore a known problem — fix it if no human input is needed, otherwise flag it explicitly (open-decisions or HT entry).
 
@@ -107,6 +107,6 @@ Phase exit — when exit criteria appear met (never self-declare a phase change)
 | Read | when |
 |---|---|
 | docs/conventions.md | writing your first D-/HT-/R- entry or a new file type this session |
-| docs/protocols.md | told to process INBOX; unsure about session ritual or archiving |
+| docs/protocols.md | unsure about session ritual or archiving |
 | docs/git.md | before the first commit of the session; anything overlay or git |
 | docs/import.md | importing an existing project |

@@ -45,12 +45,6 @@ export async function runStatus(root, argv) {
     }
   } catch (e) {}
 
-  let inboxCount = 0
-  try {
-    const inboxStr = await fs.readFile(path.join(root, 'INBOX.md'), 'utf8')
-    inboxCount = inboxStr.split('\n').filter(l => l.trim().startsWith('- [ ]')).length
-  } catch {}
-
   const useColorGlobal = !!process.stdout.isTTY
   const boldPrefix = useColorGlobal ? '\x1b[1m' : ''
   const boldSuffix = useColorGlobal ? '\x1b[0m' : ''
@@ -78,5 +72,5 @@ export async function runStatus(root, argv) {
     }
     console.log(`  Branch:  ${line}`)
   }
-  console.log(`  Inbox:   ${inboxCount} pending items\n`)
+  console.log('')
 }

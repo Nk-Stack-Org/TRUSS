@@ -35,7 +35,6 @@ const FILE_ALLOWLIST = {
   'decisions': 'state/decisions.md',
   'phases': 'state/phases.md',
   'current': 'state/current.md',
-  'inbox': 'INBOX.md',
 };
 
 const TAG_RULES = [
@@ -241,7 +240,7 @@ export async function startDashboard({ root, port = 3741, openBrowser = false, r
         let t = null;
         const ping = () => { if (t) return; t = setTimeout(() => { t = null; res.write(`data: ${JSON.stringify({ type: 'update' })}\n\n`); }, 300); };
         const watchers = [];
-        for (const p of [path.join(root, 'state'), path.join(root, 'HUMAN-TODOS.md'), path.join(root, 'INBOX.md'), path.join(root, 'AGENTS.md'), path.join(root, '.truss', 'out', 'doctor.json'), path.join(root, '.truss', 'prompts', 'custom')]) {
+        for (const p of [path.join(root, 'state'), path.join(root, 'HUMAN-TODOS.md'), path.join(root, 'AGENTS.md'), path.join(root, '.truss', 'out', 'doctor.json'), path.join(root, '.truss', 'prompts', 'custom')]) {
           try { if (fs.existsSync(p)) watchers.push(fs.watch(p, { recursive: false }, ping)); } catch {}
         }
         req.on('close', () => { clearInterval(keepAlive); watchers.forEach(w => { try { w.close(); } catch {} }); });

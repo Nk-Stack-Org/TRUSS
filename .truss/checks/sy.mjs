@@ -1,9 +1,9 @@
-// checks/sy.mjs — State-layer & entry-grammar checks (SY-01 … SY-04)
+// checks/sy.mjs — State-layer & entry-grammar checks (SY-01 … SY-05)
 //
 // SY-01  W  state/current.md missing a required key OR stale (> 7 days)
 // SY-02  I  state/open-decisions.md holds an entry open > 30 days (per-entry Opened: date)
-// SY-03  W  entry grammar violated (profile / decisions D-NNN / open-decisions OD-NNN / HUMAN-TODOS list form / INBOX sections)
-// SY-04  I  INBOX.md has unprocessed entries under ## Inbox
+// SY-03  W  entry grammar violated (profile / decisions D-NNN / open-decisions OD-NNN / HUMAN-TODOS list form)
+// SY-04  —  retired (INBOX.md removed from the baseline; id not reused)
 //
 // Grammar is grounded in the *baseline* the `init` command renders, which is the
 // canonical fresh-instance format (STRUKTUR.md §2.1). Notably current.md uses
@@ -27,8 +27,7 @@ import path from 'node:path'
 export const meta = [
   { id: 'SY-01', severity: 'W', title: 'current.md missing a required key or stale (> 7 days)' },
   { id: 'SY-02', severity: 'I', title: 'open-decisions.md holds an entry open > 30 days', description: 'Per-entry Opened: date when present, else file mtime' },
-  { id: 'SY-03', severity: 'W', title: 'state entry grammar violated (profile / decisions / open-decisions / learnings / HUMAN-TODOS / INBOX)' },
-  { id: 'SY-04', severity: 'I', title: 'INBOX.md has unprocessed entries under ## Inbox' },
+  { id: 'SY-03', severity: 'W', title: 'state entry grammar violated (profile / decisions / open-decisions / learnings / HUMAN-TODOS)' },
   { id: 'SY-05', severity: 'W', title: 'overlay repo/ checkout present but no branch: declared in current.md' },
 ]
 
@@ -123,10 +122,6 @@ export async function run(ctx) {
   checkOpenDecisionsGrammar(ctx.files.get('state/open-decisions.md'), findings)
   checkLearningsGrammar(ctx.files.get('state/learnings.md'), findings)
   checkHumanTodosGrammar(ctx.files.get('HUMAN-TODOS.md'), findings)
-  checkInboxGrammar(ctx.files.get('INBOX.md'), findings)
-
-  // ── SY-04: unprocessed inbox entries ───────────────────────────────────────
-  checkInboxUnprocessed(ctx.files.get('INBOX.md'), findings)
 
   // ── SY-05: overlay repo/ present but branch: undeclared ────────────────────
   // Pure fs read (no git): if repo/ is a checkout, current.md should declare the
@@ -300,49 +295,6 @@ function checkHumanTodosGrammar(file, findings) {
         fix: `Rewrite as '- [ ] HT-NNN — description' (use '[x]' when the human has done it; never delete). See docs/conventions.md.`,
       })
     }
-  }
-}
-
-// ── INBOX.md: must carry the ## Inbox and ## Processed sections ───────────────
-function checkInboxGrammar(file, findings) {
-  if (!file) return
-  const hasInbox     = file.lines.some(l => /^##\s+Inbox\b/i.test(l))
-  const hasProcessed = file.lines.some(l => /^##\s+Processed\b/i.test(l))
-  const missing = []
-  if (!hasInbox)     missing.push('## Inbox')
-  if (!hasProcessed) missing.push('## Processed')
-  if (missing.length) {
-    findings.push({
-      id: 'SY-03', severity: 'W',
-      file: 'INBOX.md',
-      message: `INBOX.md is missing required section${missing.length > 1 ? 's' : ''}: ${missing.join(' and ')}`,
-      fix: `Add the ${missing.join(' and ')} heading${missing.length > 1 ? 's' : ''} (raw notes under ## Inbox, the agent's log under ## Processed). See docs/protocols.md.`,
-    })
-  }
-}
-
-// ── SY-04: content under ## Inbox that hasn't been moved to ## Processed ──────
-function checkInboxUnprocessed(file, findings) {
-  if (!file) return
-  const { lines } = file
-  const start = lines.findIndex(l => /^##\s+Inbox\b/i.test(l))
-  if (start === -1) return // no ## Inbox section → SY-03 already flags it
-
-  let count = 0
-  for (let i = start + 1; i < lines.length; i++) {
-    if (/^##\s/.test(lines[i])) break       // next section
-    const t = lines[i].trim()
-    if (!t) continue
-    if (t.startsWith('<!--') || t.startsWith('>')) continue // comments / quotes are not entries
-    count++
-  }
-  if (count > 0) {
-    findings.push({
-      id: 'SY-04', severity: 'I',
-      file: 'INBOX.md',
-      message: `INBOX.md has ${count} unprocessed line${count !== 1 ? 's' : ''} under ## Inbox`,
-      fix: `Run the inbox protocol on command ("process inbox"): act on each note, then move it under ## Processed. Informational — the agent never auto-processes the inbox.`,
-    })
   }
 }
 

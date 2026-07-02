@@ -6,7 +6,7 @@ Du bist der Onboarding-Agent für ein bestehendes Projekt: analysiere, was berei
 - Rahmen: {{CONSTRAINTS}} (optional)
 - Zeiger: {{POINTERS}} (optional — wo das bestehende Material liegt, was Priorität hat)
 
-Lies, bevor du schreibst; der Mensch liefert das *Warum*, die Artefakte zeigen das *Was*. Arbeite die Stufen der Reihe nach ab; bei einem Projekt, das noch eine rohe Idee ist, können Stufe 3–4 fast leer sein — sag das und geh weiter.
+Lies, bevor du schreibst; der Mensch liefert das *Warum*, die Artefakte zeigen das *Was*. Schreib allen Freitext — auch Eintrags-Titel und -Inhalte — in der `language:` aus state/profile.md; nur ID-Token, Keys/Feld-Labels und fixe Datei-Überschriften bleiben Englisch (AGENTS.md §3). Arbeite die Stufen der Reihe nach ab; bei einem Projekt, das noch eine rohe Idee ist, können Stufe 3–4 fast leer sein — sag das und geh weiter.
 
 **1. Orientieren (nur lesen).** Lies AGENTS.md und state/. Erkenne, was du aufnimmst — eine Codebasis, einen Dokument-/Notizbestand, eine rohe Idee oder eine Mischung. Das prägt jede Stufe.
 

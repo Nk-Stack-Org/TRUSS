@@ -384,7 +384,7 @@ describe('ST-04: stub drift detected', async () => {
     await write('AGENTS.md', agentsMd)
 
     // Standard required files
-    for (const f of ['README.md', 'VISION.md', 'HUMAN-TODOS.md', 'INBOX.md', '.gitignore']) {
+    for (const f of ['README.md', 'VISION.md', 'HUMAN-TODOS.md', '.gitignore']) {
       await write(f, `# ${f}\n`)
     }
 
@@ -1062,7 +1062,7 @@ async function scaffoldWorkspace(tag) {
   await writeFileIn(tmp, 'AGENTS.md', agentsMd)
   const phasesMd = await fs.readFile(path.join(FIXTURE, 'state/phases.md'), 'utf8')
   await writeFileIn(tmp, 'state/phases.md', phasesMd)
-  for (const f of ['README.md', 'VISION.md', 'HUMAN-TODOS.md', 'INBOX.md', '.gitignore']) {
+  for (const f of ['README.md', 'VISION.md', 'HUMAN-TODOS.md', '.gitignore']) {
     await writeFileIn(tmp, f, `# ${f}\n`)
   }
   await writeFileIn(tmp, 'CLAUDE.md', 'Read AGENTS.md\n')

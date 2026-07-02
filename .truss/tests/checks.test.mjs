@@ -103,12 +103,6 @@ describe('SY-03 entry grammar', () => {
     assert.equal(ids(await sy.run(ctxOf({ 'HUMAN-TODOS.md': file(bad) })), 'SY-03').length, 1)
     assert.equal(ids(await sy.run(ctxOf({ 'HUMAN-TODOS.md': file(good) })), 'SY-03').length, 0)
   })
-  it('requires INBOX ## Inbox and ## Processed sections', async () => {
-    const bad  = `# Inbox\n\n<!-- no sections -->\n`
-    const good = `# Inbox\n\n## Inbox\n\n<!-- raw -->\n\n## Processed\n`
-    assert.equal(ids(await sy.run(ctxOf({ 'INBOX.md': file(bad) })), 'SY-03').length, 1)
-    assert.equal(ids(await sy.run(ctxOf({ 'INBOX.md': file(good) })), 'SY-03').length, 0)
-  })
   it('flags an OD entry missing Opened and an unnumbered entry, passes a complete one', async () => {
     const good        = `# Open Decisions\n\n## OD-001 — Should we X?\n\nOpened: 2026-06-01\nLeaning: a\n`
     const missingF    = `# Open Decisions\n\n## OD-001 — Should we X?\n\nLeaning: a\n`
@@ -126,16 +120,6 @@ describe('SY-03 entry grammar', () => {
     const dec = '# Decisions\n\n```\n## D-009 — example, no fields\n```\n\n## D-001 — real\n\nDate: x\nDecision: x\nWhy: x\nConsequences: x\n'
     assert.equal(ids(await sy.run(ctxOf({ 'HUMAN-TODOS.md': file(ht) })), 'SY-03').length, 0)
     assert.equal(ids(await sy.run(ctxOf({ 'state/decisions.md': file(dec) })), 'SY-03').length, 0)
-  })
-})
-
-// ── SY-04 ────────────────────────────────────────────────────────────────────
-describe('SY-04 unprocessed inbox', () => {
-  it('flags content under ## Inbox, ignores comments', async () => {
-    const dirty = `# Inbox\n\n## Inbox\n\nbuy milk\ncheck the thing\n\n## Processed\n`
-    const clean = `# Inbox\n\n## Inbox\n\n<!-- nothing yet -->\n\n## Processed\n`
-    assert.equal(ids(await sy.run(ctxOf({ 'INBOX.md': file(dirty) })), 'SY-04').length, 1)
-    assert.equal(ids(await sy.run(ctxOf({ 'INBOX.md': file(clean) })), 'SY-04').length, 0)
   })
 })
 
@@ -216,7 +200,7 @@ describe('doctor report output', () => {
     await runCli(root, ['doctor', '--json'])
     const json = JSON.parse(await read(root, '.truss/out/doctor.json'))
     const catalogIds = json.checks.map(c => c.id)
-    for (const id of ['SY-01', 'SY-02', 'SY-03', 'SY-04', 'CX-01', 'HY-01']) {
+    for (const id of ['SY-01', 'SY-02', 'SY-03', 'CX-01', 'HY-01']) {
       assert.ok(catalogIds.includes(id), `JSON catalog should include ${id}`)
     }
   })

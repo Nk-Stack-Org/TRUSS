@@ -44,8 +44,8 @@ profile's `operate` phase) is a human-only phase change made *after* init — se
 
 ## `status`
 
-Print a compact, read-only summary of the workspace — current phase, health, and
-inbox count. The quickest "where am I?" command. In an overlay with a `repo/`
+Print a compact, read-only summary of the workspace — current phase and health.
+The quickest "where am I?" command. In an overlay with a `repo/`
 checkout it also prints a **Branch** line: the live `repo/` branch against the
 `branch:` declared in `state/current.md` (`✓` when they match, `✗ MISMATCH` with a
 switch hint when they don't). This is the live branch check — `doctor` itself
